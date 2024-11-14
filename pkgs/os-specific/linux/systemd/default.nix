@@ -185,14 +185,14 @@ assert withBootloader -> withEfi;
 let
   wantCurl = withRemote || withImportd;
   wantGcrypt = withResolved || withImportd;
-  version = "256.7";
+  version = "257-rc1";
 
   # Use the command below to update `releaseTimestamp` on every (major) version
   # change. More details in the commentary at mesonFlags.
   # command:
   #  $ curl -s https://api.github.com/repos/systemd/systemd/releases/latest | \
   #     jq '.created_at|strptime("%Y-%m-%dT%H:%M:%SZ")|mktime'
-  releaseTimestamp = "1720202583";
+  releaseTimestamp = "1728402157";
 in
 stdenv.mkDerivation (finalAttrs: {
   inherit pname version;
@@ -203,7 +203,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "systemd";
     repo = "systemd";
     rev = "v${version}";
-    hash = "sha256-x214fOhEWLoiexRrN4lGx4Pqx2+jYN94w9GzntVRcZ4=";
+    hash = "sha256-ZV5FiixeVu+0oOS59mcVk+d9JXly/Z0JT3mPSdVR0tc=";
   };
 
   # On major changes, or when otherwise required, you *must* :
@@ -218,7 +218,7 @@ stdenv.mkDerivation (finalAttrs: {
     ./0001-Start-device-units-for-uninitialised-encrypted-devic.patch
     ./0002-Don-t-try-to-unmount-nix-or-nix-store.patch
     ./0003-Fix-NixOS-containers.patch
-    ./0004-Add-some-NixOS-specific-unit-directories.patch
+    # ./0004-Add-some-NixOS-specific-unit-directories.patch
     ./0005-Get-rid-of-a-useless-message-in-user-sessions.patch
     ./0006-hostnamed-localed-timedated-disable-methods-that-cha.patch
     ./0007-Change-usr-share-zoneinfo-to-etc-zoneinfo.patch
@@ -448,6 +448,8 @@ stdenv.mkDerivation (finalAttrs: {
     (lib.mesonOption "sshconfdir" "no")
     (lib.mesonOption "sshdconfdir" "no")
 
+    # profile.d
+    (lib.mesonOption "shellprofiledir" "no")
 
     # Features
 
@@ -634,6 +636,7 @@ stdenv.mkDerivation (finalAttrs: {
             "src/import/export.c"
             "src/import/import.c"
             "src/import/importd.c"
+            "src/shared/import-util.c"
             # runs `tar` but also also creates a temporary directory with the string
             "src/import/pull-tar.c"
           ];
