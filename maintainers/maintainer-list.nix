@@ -8252,6 +8252,11 @@
     githubId = 175898536;
     keys = [ { fingerprint = "4319 2667 85A9 E6BD 9A84  4BC7 1313 15C2 0524 200C"; } ];
   };
+  ezratweaver = {
+    name = "Ezra Weaver";
+    github = "ezratweaver";
+    githubId = 101545981;
+  };
   ezrizhu = {
     name = "Ezri Zhu";
     email = "me@ezrizhu.com";
@@ -19757,6 +19762,13 @@
     github = "outfoxxed";
     githubId = 83010835;
     keys = [ { fingerprint = "0181 FF89 4F34 7FCC EB06  5710 4C88 A185 FB89 301E"; } ];
+  };
+  overloader = {
+    name = "Overloader";
+    github = "Overloader6";
+    githubId = 22007229;
+    email = "overloader@tutanota.com";
+    keys = [ { fingerprint = "B96E 6D41 E47B 042C 64A2  1D9A 8B17 537A AF09 AF18"; } ];
   };
   ovlach = {
     email = "ondrej@vlach.xyz";
