@@ -1,0 +1,89 @@
+--- b/nixos-modules/hydra.nix
++++ a/nixos-modules/hydra.nix
+@@ -364,7 +364,7 @@
+         requires = [ "hydra-init.service" ];
+         restartTriggers = [ hydraConf ];
+         after = [ "hydra-init.service" "network.target" ];
++        path = with pkgs; [ hostname-debian cfg.package jq ];
+-        path = with pkgs; [ hostname-debian cfg.package ];
+         environment = env // {
+           HYDRA_DBI = "${env.HYDRA_DBI};application_name=hydra-evaluator";
+         };
+--- b/src/lib/Hydra/Plugin/BitBucketPulls.pm
++++ a/src/lib/Hydra/Plugin/BitBucketPulls.pm
+@@ -10,6 +10,7 @@
+ use Hydra::Helper::Nix;
+ use File::Temp;
+ use POSIX qw(strftime);
++use IPC::Run qw(run);
+ 
+ sub supportedInputTypes {
+     my ($self, $inputTypes) = @_;
+@@ -44,11 +45,12 @@
+     my $ua = LWP::UserAgent->new();
+     _iterate("https://api.bitbucket.com/2.0/repositories/$owner/$repo/pullrequests?state=OPEN", $auth, \%pulls, $ua);
+     my $tempdir = File::Temp->newdir("bitbucket-pulls" . "XXXXX", TMPDIR => 1);
++    my $filename = "$tempdir/bitbucket-pulls.json";
+-    my $filename = "$tempdir/bitbucket-pulls-sorted.json";
+     open(my $fh, ">", $filename) or die "Cannot open $filename for writing: $!";
++    print $fh encode_json \%pulls;
+-    print $fh JSON::MaybeXS->new(canonical => 1, pretty => 1)->encode(\%pulls);
+     close $fh;
++    run(["jq", "-S", "."], '<', $filename, '>', "$tempdir/bitbucket-pulls-sorted.json") or die "jq command failed: $?";
++    my $storePath = addToStore("$tempdir/bitbucket-pulls-sorted.json");
+-    my $storePath = addToStore($filename);
+     my $timestamp = time;
+     return { storePath => $storePath, revision => strftime "%Y%m%d%H%M%S", gmtime($timestamp) };
+ }
+--- b/src/lib/Hydra/Plugin/GithubRefs.pm
++++ a/src/lib/Hydra/Plugin/GithubRefs.pm
+@@ -10,6 +10,7 @@
+ use Hydra::Helper::Nix;
+ use File::Temp;
+ use POSIX qw(strftime);
++use IPC::Run qw(run);
+ 
+ =head1 NAME
+ 
+@@ -111,11 +112,12 @@
+     my $ua = LWP::UserAgent->new();
+     _iterate("$githubEndpoint/repos/$owner/$repo/git/matching-refs/$type/$prefix?per_page=100", $auth, \%refs, $ua);
+     my $tempdir = File::Temp->newdir("github-refs" . "XXXXX", TMPDIR => 1);
++    my $filename = "$tempdir/github-refs.json";
+-    my $filename = "$tempdir/github-refs-sorted.json";
+     open(my $fh, ">", $filename) or die "Cannot open $filename for writing: $!";
++    print $fh encode_json \%refs;
+-    print $fh JSON::MaybeXS->new(canonical => 1, pretty => 1)->encode(\%refs);
+     close $fh;
++    run(["jq", "-S", "."], '<', $filename, '>', "$tempdir/github-refs-sorted.json") or die "jq command failed: $?";
++    my $storePath = addToStore("$tempdir/github-refs-sorted.json");
+-    my $storePath = addToStore($filename);
+     my $timestamp = time;
+     return { storePath => $storePath, revision => strftime "%Y%m%d%H%M%S", gmtime($timestamp) };
+ }
+--- b/src/lib/Hydra/Plugin/GitlabPulls.pm
++++ a/src/lib/Hydra/Plugin/GitlabPulls.pm
+@@ -24,6 +24,7 @@
+ use Hydra::Helper::Nix;
+ use File::Temp;
+ use POSIX qw(strftime);
++use IPC::Run qw(run);
+ 
+ sub supportedInputTypes {
+     my ($self, $inputTypes) = @_;
+@@ -82,11 +83,12 @@
+     _iterate($url, $baseUrl, \%pulls, $ua, $target_repo_url);
+ 
+     my $tempdir = File::Temp->newdir("gitlab-pulls" . "XXXXX", TMPDIR => 1);
++    my $filename = "$tempdir/gitlab-pulls.json";
+-    my $filename = "$tempdir/gitlab-pulls-sorted.json";
+     open(my $fh, ">", $filename) or die "Cannot open $filename for writing: $!";
++    print $fh encode_json \%pulls;
+-    print $fh JSON::MaybeXS->new(canonical => 1, pretty => 1)->encode(\%pulls);
+     close $fh;
++    run(["jq", "-S", "."], '<', $filename, '>', "$tempdir/gitlab-pulls-sorted.json") or die "jq command failed: $?";
++    my $storePath = addToStore("$tempdir/gitlab-pulls-sorted.json");
+-    my $storePath = addToStore($filename);
+     my $timestamp = time;
+     return { storePath => $storePath, revision => strftime "%Y%m%d%H%M%S", gmtime($timestamp) };
+ }

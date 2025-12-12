@@ -141,6 +141,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-ifmzQS+u/dODQXmMVQLIb4AF4dkWI9s7VGYpV6x/Iq4=";
   };
 
+  patches = [
+    ./readd-jq-json.patch
+  ];
+
   outputs = [
     "out"
     "doc"
