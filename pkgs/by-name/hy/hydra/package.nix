@@ -135,15 +135,11 @@ stdenv.mkDerivation (finalAttrs: {
   # nixpkgs-update: no auto update
 
   src = fetchFromGitHub {
-    owner = "NixOS";
+    owner = "emhamm";
     repo = "hydra";
-    rev = "241ab718002ca5740b7e3f659d0fbd483ab40523";
-    hash = "sha256-ifmzQS+u/dODQXmMVQLIb4AF4dkWI9s7VGYpV6x/Iq4=";
+    rev = "7d12fa6a55bc913d65bdd99ce446ac9d6917f3ea";
+    hash = "sha256-xT4aPgRONTAwrZiUxtd9g/mk0V0XQd5UiT9c1qbBPcU=";
   };
-
-  patches = [
-    ./readd-jq-json.patch
-  ];
 
   outputs = [
     "out"
