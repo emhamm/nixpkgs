@@ -596384,7 +596384,6 @@ self: {
       description = "Multi-backend, high-level EDSL for interacting with SQL databases";
       license = lib.licenses.mit;
       hydraPlatforms = lib.platforms.none;
-      broken = true;
     }
   ) { };
 

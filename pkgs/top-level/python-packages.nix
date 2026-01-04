@@ -2872,6 +2872,8 @@ self: super: with self; {
 
   colcon-cd = callPackage ../development/python-modules/colcon-cd { };
 
+  colcon-coveragepy-result = callPackage ../development/python-modules/colcon-coveragepy-result { };
+
   colcon-defaults = callPackage ../development/python-modules/colcon-defaults { };
 
   colcon-installed-package-information =
@@ -12809,6 +12811,8 @@ self: super: with self; {
 
   pyarrow-hotfix = callPackage ../development/python-modules/pyarrow-hotfix { };
 
+  pyaskalono = callPackage ../development/python-modules/pyaskalono { };
+
   pyasn = callPackage ../development/python-modules/pyasn { };
 
   pyasn1 = callPackage ../development/python-modules/pyasn1 { };
@@ -13769,6 +13773,8 @@ self: super: with self; {
   pymongo = callPackage ../development/python-modules/pymongo { };
 
   pymongo-inmemory = callPackage ../development/python-modules/pymongo-inmemory { };
+
+  pymongo-search-utils = callPackage ../development/python-modules/pymongo-search-utils { };
 
   pymonoprice = callPackage ../development/python-modules/pymonoprice { };
 
@@ -19805,6 +19811,8 @@ self: super: with self; {
 
   unicode-rbnf = callPackage ../development/python-modules/unicode-rbnf { };
 
+  unicode-segmentation-rs = callPackage ../development/python-modules/unicode-segmentation-rs { };
+
   unicodecsv = callPackage ../development/python-modules/unicodecsv { };
 
   unicodedata2 = callPackage ../development/python-modules/unicodedata2 { };
@@ -19974,6 +19982,8 @@ self: super: with self; {
   utils = callPackage ../development/python-modules/utils { };
 
   utitools = callPackage ../development/python-modules/utitools { };
+
+  uuid-utils = callPackage ../development/python-modules/uuid-utils { };
 
   uuid6 = callPackage ../development/python-modules/uuid6 { };
 

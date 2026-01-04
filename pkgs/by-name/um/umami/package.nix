@@ -6,7 +6,9 @@
   makeWrapper,
   nixosTests,
   nodejs,
-  pnpm_10,
+  fetchPnpmDeps,
+  pnpmConfigHook,
+  pnpm,
   prisma,
   prisma-engines,
   openssl,
@@ -18,7 +20,6 @@
 }:
 let
   sources = lib.importJSON ./sources.json;
-  pnpm = pnpm_10;
 
   geocities = stdenvNoCC.mkDerivation {
     pname = "umami-geocities";
@@ -77,7 +78,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     makeWrapper
     nodejs
-    pnpm.configHook
+    pnpmConfigHook
+    pnpm
   ];
 
   src = fetchFromGitHub {
@@ -87,24 +89,14 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     hash = "sha256-rkOD52suE6bihJqKvMdIvqHRIcWhSxXzUkCfmdNbC40=";
   };
 
-  pnpmDeps = pnpm.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs)
       pname
       version
       src
       ;
-    # prevent downloading dependencies for windows
-    # which bloat derivation size and fail to build on hydra
-    # https://github.com/NixOS/nixpkgs/pull/467820#issuecomment-3624054271
-    pnpmInstallFlags = [
-      "--force=false"
-      "--os=linux"
-      "--os=darwin"
-      "--cpu=x64"
-      "--cpu=arm64"
-    ];
-    fetcherVersion = 2;
-    hash = "sha256-bqeJ0wzCtnuR6V67Qe1N9UcaHPLziuBhsn7eN8JVJbQ=";
+    fetcherVersion = 3;
+    hash = "sha256-GFN94oySPCZA5K13XR8f/tByuHS571ohlYTFqaVw/Ns=";
   };
 
   env.CYPRESS_INSTALL_BINARY = "0";
