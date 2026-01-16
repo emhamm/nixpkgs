@@ -6,6 +6,8 @@
   nixosTests,
   versionCheckHook,
   nix-update-script,
+  gitMinimal,
+  makeWrapper,
 }:
 
 let
@@ -17,9 +19,10 @@ let
     # The following tests were introduced in 9.x with the inclusion of act
     # the pkgs/by-name/ac/act/package.nix just sets doCheck = false;
 
-    # Requires running docker install
+    # Requires running Docker daemon
     "TestDocker"
     "TestJobExecutor"
+    "TestRunExec"
     "TestRunner"
     "Test_validateCmd"
 
@@ -29,7 +32,7 @@ let
     # Reaches out to different websites
     "TestFindGitRemoteURL"
     "TestGitFindRef"
-    "TestGitCloneExecutor"
+    "TestClone"
     "TestCloneIfRequired"
     "TestActionCache"
     "TestRunContext_GetGitHubContext"
@@ -46,17 +49,19 @@ let
 in
 buildGoModule rec {
   pname = "forgejo-runner";
-  version = "11.3.1";
+  version = "12.5.2";
 
   src = fetchFromGitea {
     domain = "code.forgejo.org";
     owner = "forgejo";
     repo = "runner";
     rev = "v${version}";
-    hash = "sha256-jvHnTCkRvYaejeCiPpr18ldEmxcAkrEIaOLVVBY11eg=";
+    hash = "sha256-aL79wMzoqt1rqaOQyV28HSeZwjL3k60AyQOhOT/+BRY=";
   };
 
-  vendorHash = "sha256-7Ybh5qzkqT3CvGtRXiPkc5ShTYGlyvckTxg4EFagM/c=";
+  vendorHash = "sha256-XNUhlGkW8bZ1cjODD6QIyRmmNdQ4Tq/hP2FToYfTq2k=";
+
+  nativeBuildInputs = [ makeWrapper ];
 
   # See upstream Makefile
   # https://code.forgejo.org/forgejo/runner/src/branch/main/Makefile
@@ -68,7 +73,7 @@ buildGoModule rec {
   ldflags = [
     "-s"
     "-w"
-    "-X code.forgejo.org/forgejo/runner/v11/internal/pkg/ver.version=${src.rev}"
+    "-X code.forgejo.org/forgejo/runner/v12/internal/pkg/ver.version=${src.rev}"
   ];
 
   checkFlags = [
@@ -76,12 +81,18 @@ buildGoModule rec {
   ];
 
   postInstall = ''
-    # fix up go-specific executable naming derived from package name, upstream
+    # Fix up go-specific executable naming derived from package name, upstream
     # also calls it `forgejo-runner`
     mv $out/bin/runner $out/bin/forgejo-runner
-    # provide old binary name for compatibility
+
+    # Provide backward compatbility since v12 removed bundled git
+    wrapProgram $out/bin/forgejo-runner --suffix PATH : ${lib.makeBinPath [ gitMinimal ]}
+
+    # Provide old binary name for compatibility
     ln -s $out/bin/forgejo-runner $out/bin/act_runner
   '';
+
+  nativeCheckInputs = [ gitMinimal ];
 
   doInstallCheck = true;
   nativeInstallCheckInputs = [ versionCheckHook ];
@@ -91,7 +102,8 @@ buildGoModule rec {
   passthru = {
     updateScript = nix-update-script { };
     tests = lib.optionalAttrs stdenv.hostPlatform.isLinux {
-      sqlite3 = nixosTests.forgejo.sqlite3;
+      latest = nixosTests.forgejo.sqlite3;
+      lts = nixosTests.forgejo-lts.sqlite3;
     };
   };
 
@@ -100,13 +112,8 @@ buildGoModule rec {
     homepage = "https://code.forgejo.org/forgejo/runner";
     changelog = "https://code.forgejo.org/forgejo/runner/releases/tag/${src.rev}";
     license = lib.licenses.gpl3Plus;
-    maintainers = with lib.maintainers; [
-      adamcstephens
-      emilylange
-      christoph-heiss
-      tebriel
-      nrabulinski
-    ];
+    maintainers = with lib.maintainers; [ nrabulinski ];
+    teams = [ lib.teams.forgejo ];
     mainProgram = "forgejo-runner";
   };
 }

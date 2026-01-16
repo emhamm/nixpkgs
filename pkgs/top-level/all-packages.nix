@@ -1504,7 +1504,6 @@ with pkgs;
 
   authelia = callPackage ../servers/authelia {
     buildGoModule = buildGo124Module;
-    pnpm = pnpm_10;
   };
 
   authentik-outposts = recurseIntoAttrs (callPackages ../by-name/au/authentik/outposts.nix { });
@@ -1900,7 +1899,16 @@ with pkgs;
 
   inherit (ocamlPackages) dot-merlin-reader;
 
-  inherit (ocamlPackages) dune_2 dune_3 dune-release;
+  inherit (ocamlPackages) dune-release;
+
+  dune_2 = callPackage ../by-name/du/dune/package.nix {
+    version = "2.9.3";
+    inherit ocamlPackages;
+  };
+
+  dune_3 = callPackage ../by-name/du/dune/package.nix {
+    inherit ocamlPackages;
+  };
 
   dvc = with python3.pkgs; toPythonApplication dvc;
 
@@ -2075,7 +2083,7 @@ with pkgs;
 
   intensity-normalization = with python3Packages; toPythonApplication intensity-normalization;
 
-  jellyfin-media-player = libsForQt5.callPackage ../applications/video/jellyfin-media-player { };
+  jellyfin-desktop = kdePackages.callPackage ../applications/video/jellyfin-desktop { };
 
   jellyfin-mpv-shim = python3Packages.callPackage ../applications/video/jellyfin-mpv-shim { };
 
@@ -2169,6 +2177,8 @@ with pkgs;
       { };
 
   online-judge-tools = with python3.pkgs; toPythonApplication online-judge-tools;
+
+  opaline = callPackage ../by-name/op/opaline/package.nix { inherit ocamlPackages; };
 
   inherit (ocamlPackages) patdiff;
 
@@ -2515,7 +2525,6 @@ with pkgs;
       pslSupport = true;
       zstdSupport = true;
       http3Support = true;
-      c-aresSupport = true;
     }
     // lib.optionalAttrs (!stdenv.hostPlatform.isStatic) {
       brotliSupport = true;
@@ -2996,8 +3005,6 @@ with pkgs;
   hyphen = callPackage ../development/libraries/hyphen { };
 
   hyphenDicts = recurseIntoAttrs (callPackages ../development/libraries/hyphen/dictionaries.nix { });
-
-  icemon = libsForQt5.callPackage ../applications/networking/icemon { };
 
   icepeak = haskell.lib.compose.justStaticExecutables haskellPackages.icepeak;
 
@@ -3719,6 +3726,11 @@ with pkgs;
     ;
   pnpm = pnpm_10;
 
+  inherit (callPackages ../build-support/node/fetch-pnpm-deps { })
+    fetchPnpmDeps
+    pnpmConfigHook
+    ;
+
   po4a = perlPackages.Po4a;
 
   podman-compose = python3Packages.callPackage ../applications/virtualization/podman-compose { };
@@ -4044,8 +4056,6 @@ with pkgs;
   video2midi = callPackage ../tools/audio/video2midi {
     pythonPackages = python3Packages;
   };
-
-  vikunja = callPackage ../by-name/vi/vikunja/package.nix { pnpm = pnpm_9; };
 
   vimpager = callPackage ../tools/misc/vimpager { };
   vimpager-latest = callPackage ../tools/misc/vimpager/latest.nix { };
@@ -4918,8 +4928,8 @@ with pkgs;
     inherit (emacs.pkgs.melpaStablePackages) irony;
   };
 
-  openjfx17 = openjfx;
-  openjfx21 = callPackage ../by-name/op/openjfx/package.nix { featureVersion = "21"; };
+  openjfx17 = callPackage ../by-name/op/openjfx/package.nix { featureVersion = "17"; };
+  openjfx21 = openjfx;
   openjfx25 = callPackage ../by-name/op/openjfx/package.nix { featureVersion = "25"; };
 
   openjdk8-bootstrap = javaPackages.compiler.openjdk8-bootstrap;
@@ -5874,7 +5884,7 @@ with pkgs;
     mkRuby
     ruby_3_3
     ruby_3_4
-    ruby_3_5
+    ruby_4_0
     ;
 
   ruby = ruby_3_3;
@@ -5882,7 +5892,7 @@ with pkgs;
 
   rubyPackages_3_3 = recurseIntoAttrs ruby_3_3.gems;
   rubyPackages_3_4 = recurseIntoAttrs ruby_3_4.gems;
-  rubyPackages_3_5 = recurseIntoAttrs ruby_3_5.gems;
+  rubyPackages_4_0 = recurseIntoAttrs ruby_4_0.gems;
 
   inherit (callPackages ../applications/networking/cluster/spark { })
     spark_4_0
@@ -7482,6 +7492,7 @@ with pkgs;
     icu75
     icu76
     icu77
+    icu78
     ;
 
   icu = icu76;
@@ -9239,10 +9250,6 @@ with pkgs;
     kanidmWithSecretProvisioning_1_8
     ;
 
-  knot-resolver = callPackage ../servers/dns/knot-resolver {
-    systemd = systemdMinimal; # in closure already anyway
-  };
-
   leafnode = callPackage ../servers/news/leafnode { };
 
   leafnode1 = callPackage ../servers/news/leafnode/1.nix { };
@@ -10293,11 +10300,15 @@ with pkgs;
       zfs_2_3 = callPackage ../os-specific/linux/zfs/2_3.nix {
         configFile = "user";
       };
+      zfs_2_4 = callPackage ../os-specific/linux/zfs/2_4.nix {
+        configFile = "user";
+      };
       zfs_unstable = callPackage ../os-specific/linux/zfs/unstable.nix {
         configFile = "user";
       };
     })
     zfs_2_3
+    zfs_2_4
     zfs_unstable
     ;
   zfs = zfs_2_3;
@@ -11417,10 +11428,6 @@ with pkgs;
   kiwix-tools = callPackage ../applications/misc/kiwix/tools.nix { };
 
   klayout = libsForQt5.callPackage ../applications/misc/klayout { };
-
-  klee = callPackage ../applications/science/logic/klee {
-    llvmPackages = llvmPackages_18;
-  };
 
   kotatogram-desktop =
     callPackage ../applications/networking/instant-messengers/telegram/kotatogram-desktop
@@ -12684,10 +12691,6 @@ with pkgs;
           ;
       };
 
-  xournalpp = callPackage ../applications/graphics/xournalpp {
-    lua = lua5_3;
-  };
-
   xpdf = libsForQt5.callPackage ../applications/misc/xpdf { };
 
   xmobar = haskellPackages.xmobar.bin;
@@ -12732,9 +12735,7 @@ with pkgs;
 
   youtube-dl-light = with python3Packages; toPythonApplication youtube-dl-light;
 
-  youtube-music = callPackage ../applications/audio/youtube-music {
-    pnpm = pnpm_10;
-  };
+  youtube-music = callPackage ../applications/audio/youtube-music { };
 
   yt-dlp-light = yt-dlp.override {
     atomicparsleySupport = false;

@@ -701,6 +701,7 @@ mapAliases {
   grub2_full = throw "'grub2_full' has been renamed to/replaced by 'grub2'"; # Converted to throw 2025-10-27
   gtkcord4 = throw "'gtkcord4' has been renamed to/replaced by 'dissent'"; # Converted to throw 2025-10-27
   gtkextra = throw "'gtkextra' has been removed due to lack of maintenance upstream."; # Added 2025-06-10
+  gtuber = throw "'gtuber' has been removed due to being discontinued by upstream."; # Added 2025-12-12
   guile-disarchive = throw "'guile-disarchive' has been renamed to/replaced by 'disarchive'"; # Converted to throw 2025-10-27
   guile-sdl = throw "guile-sdl has been removed, as it was broken"; # Added 2025-08-25
   gutenprintBin = gutenprint-bin; # Added 2025-08-21
@@ -751,6 +752,7 @@ mapAliases {
   jdk23_headless = throw "OpenJDK 23 was removed as it has reached its end of life"; # Added 2025-11-04
   jdk24 = throw "OpenJDK 24 was removed as it has reached its end of life"; # Added 2025-10-04
   jdk24_headless = throw "OpenJDK 24 was removed as it has reached its end of life"; # Added 2025-10-04
+  jellyfin-media-player = jellyfin-desktop; # Added 2025-12-14
   jesec-rtorrent = throw "'jesec-rtorrent' has been removed due to lack of maintenance upstream."; # Added 2025-11-20
   jikespg = throw "'jikespg' has been removed due to lack of maintenance upstream."; # Added 2025-06-10
   jing = jing-trang; # Added 2025-09-18
@@ -774,6 +776,7 @@ mapAliases {
   kgx = throw "'kgx' has been renamed to/replaced by 'gnome-console'"; # Converted to throw 2025-10-27
   khoj = throw "khoj has been removed because it has been marked as broken since at least November 2024."; # Added 2025-10-11
   kmplayer = throw "'kmplayer' has been removed, as it is unmaintained upstream"; # Added 2025-08-30
+  knot-resolver = warnAlias "'knot-resolver' is currently aliased to 'knot-resolver_5'. This will change with the knot-resolver 6 being declared as stable. Please explicitly use the 'knot-resolver_5' or 'knot-resolver_6' package until then." knot-resolver_5; # Added 2025-11-30
   kodiGBM = throw "'kodiGBM' has been renamed to/replaced by 'kodi-gbm'"; # Converted to throw 2025-10-27
   kodiPlain = throw "'kodiPlain' has been renamed to/replaced by 'kodi'"; # Converted to throw 2025-10-27
   kodiPlainWayland = throw "'kodiPlainWayland' has been renamed to/replaced by 'kodi-wayland'"; # Converted to throw 2025-10-27
@@ -1228,6 +1231,7 @@ mapAliases {
   pcp = throw "'pcp' has been removed because the upstream repo was archived and it hasn't been updated since 2021"; # Added 2025-09-23
   pcre16 = throw "'pcre16' has been removed because it is obsolete. Consider migrating to 'pcre2' instead."; # Added 2025-05-29
   pcsctools = throw "'pcsctools' has been renamed to/replaced by 'pcsc-tools'"; # Converted to throw 2025-10-27
+  pdf2djvu = throw "pdf2djvu has been removed because it was broken and archived upstream"; # added 2025-12-06
   pdf4tcl = throw "'pdf4tcl' has been renamed to/replaced by 'tclPackages.pdf4tcl'"; # Converted to throw 2025-10-27
   pds = warnAlias "'pds' has been renamed to 'bluesky-pds'" bluesky-pds; # Added 2025-08-20
   pdsadmin = warnAlias "'pdsadmin' has been renamed to 'bluesky-pdsadmin'" bluesky-pdsadmin; # Added 2025-08-20
@@ -1396,8 +1400,10 @@ mapAliases {
   ruby-zoom = throw "'ruby-zoom' has been removed due to lack of maintaince and had not been updated since 2020"; # Added 2025-08-24
   ruby_3_1 = throw "ruby_3_1 has been removed, as it is has reached end‐of‐life upstream"; # Added 2025-10-12
   ruby_3_2 = throw "ruby_3_2 has been removed, as it will reach end‐of‐life upstream during Nixpkgs 25.11’s support cycle"; # Added 2025-10-12
+  ruby_3_5 = ruby_4_0; # Added 2025-12-22
   rubyPackages_3_1 = throw "rubyPackages_3_1 has been removed, as it is has reached end‐of‐life upstream"; # Added 2025-10-12
-  rubyPackages_3_2 = throw "rubyPackages_3_2 has been removed, as it will reach end‐of‐life upstream during Nixpkgs 25.11’s support cycle"; # Added 2025-10-12
+  rubyPackages_3_2 = throw "rubyPackages_3_2 has been removed, as it will reach end‐of‐life upstream during Nixpkgs 25.11's support cycle"; # Added 2025-10-12
+  rubyPackages_3_5 = rubyPackages_4_0; # Added 2025-12-22
   rucksack = throw "rucksack was removed due to numerous vulnerabilities in freeimage"; # Added 2025-10-23
   runCommandNoCC = warnAlias "'runCommandNoCC' has been renamed to/replaced by 'runCommand'" runCommand; # Converted to warning 2025-10-28
   runCommandNoCCLocal = warnAlias "'runCommandNoCCLocal' has been renamed to/replaced by 'runCommandLocal'" runCommandLocal; # Converted to warning 2025-10-28
@@ -1419,7 +1425,6 @@ mapAliases {
   sequoia = throw "'sequoia' has been renamed to/replaced by 'sequoia-sq'"; # Converted to throw 2025-10-27
   serverless = throw "'serverless' has been removed because version 3.x is unmaintained upstream and vulnerable, and version 4.x lacks a suitable binary or source download."; # Added 2025-11-22
   session-desktop-appimage = throw "'session-desktop-appimage' has been renamed to/replaced by 'session-desktop'"; # Converted to throw 2025-10-27
-  setserial = throw "'setserial' has been removed as it had been abandoned upstream"; # Added 2025-05-18
   sexp = throw "'sexp' has been renamed to/replaced by 'sexpp'"; # Converted to throw 2025-10-27
   shadered = throw "shadered has been removed because it has been marked as broken since at least November 2024."; # Added 2025-10-01
   shared_desktop_ontologies = throw "'shared_desktop_ontologies' has been removed as it had been abandoned upstream"; # Added 2025-11-09
@@ -1594,13 +1599,6 @@ mapAliases {
   trilium-next-server = trilium-server; # Added 2025-08-30
   trojita = throw "'trojita' has been dropped as it depends on KDE Gear 5, and is unmaintained"; # Added 2025-08-20
   trust-dns = throw "'trust-dns' has been renamed to/replaced by 'hickory-dns'"; # Converted to throw 2025-10-27
-  tt-rss = throw "'tt-rss' has been removed, as it was discontinued on 2025-11-01"; # Added 2025-10-03
-  tt-rss-plugin-auth-ldap = throw "'tt-rss-plugin-auth-ldap' has been removed, as tt-rss was discontinued and removed"; # Added 2025-10-03
-  tt-rss-plugin-data-migration = throw "'tt-rss-plugin-data-migration' has been removed, as tt-rss was discontinued and removed"; # Added 2025-10-03
-  tt-rss-plugin-feediron = throw "'tt-rss-plugin-feediron' has been removed, as tt-rss was discontinued and removed"; # Added 2025-10-03
-  tt-rss-plugin-feedly = throw "'tt-rss-plugin-feedly' has been removed, as tt-rss was discontinued and removed"; # Added 2025-10-03
-  tt-rss-plugin-ff-instagram = throw "'tt-rss-plugin-ff-instagram' has been removed, as tt-rss was discontinued and removed"; # Added 2025-10-03
-  tt-rss-plugin-freshapi = throw "'tt-rss-plugin-freshapi' has been removed, as tt-rss was discontinued and removed"; # Added 2025-10-03
   tvbrowser-bin = throw "'tvbrowser-bin' has been renamed to/replaced by 'tvbrowser'"; # Converted to throw 2025-10-27
   typst-fmt = throw "'typst-fmt' has been renamed to/replaced by 'typstfmt'"; # Converted to throw 2025-10-27
   typstfmt = throw "'typstfmt' has been removed due to lack of upstream maintenance, consider using 'typstyle' instead"; # Added 2025-10-26
@@ -1651,7 +1649,7 @@ mapAliases {
   warmux = throw "'warmux' has been removed as it is unmaintained and broken"; # Added 2025-11-03
   warsow = throw "'warsow' has been removed as it is unmaintained and is broken"; # Added 2025-10-09
   warsow-engine = throw "'warsow-engine' has been removed as it is unmaintained and is broken"; # Added 2025-10-09
-  wasm-bindgen-cli = wasm-bindgen-cli_0_2_104;
+  wasm-bindgen-cli = wasm-bindgen-cli_0_2_106;
   wasm-strip = throw "'wasm-strip' has been removed due to upstream deprecation. Use 'wabt' instead."; # Added 2025-11-06
   wavebox = throw "'wavebox' has been removed due to lack of maintenance in nixpkgs"; # Added 2025-06-24
   wavm = throw "wavm has been removed, as it does not build with supported LLVM versions"; # Added 2025-08-10

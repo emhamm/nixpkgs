@@ -2806,8 +2806,8 @@ let
         mktplcRef = {
           name = "vscord";
           publisher = "leonardssh";
-          version = "5.3.5";
-          hash = "sha256-b5osn7UeSkr8gnLZ/PkrxS0WmgHUwfS0jnwTc1Uw0Sg=";
+          version = "5.3.8";
+          hash = "sha256-tqyhu6pa+UFwCYpS3xioeSw4oET0TFfQmJ8hsSz3q/k=";
         };
         meta = {
           description = "Highly customizable Discord Rich Presence extension for Visual Studio Code";
@@ -3606,8 +3606,8 @@ let
         mktplcRef = {
           name = "dark-molokai-theme";
           publisher = "nonylene";
-          version = "1.0.8";
-          hash = "sha256-GQNv3QWzb0xSnaR8GOnAOZF/wOg0LaWHN3goIYq7JmI=";
+          version = "1.0.10";
+          hash = "sha256-YBYlcf6TUPEQvmhL7mYfN59itKQvtWt9003/Bup15eg=";
         };
         meta = {
           changelog = "https://marketplace.visualstudio.com/items/nonylene.dark-molokai-theme/changelog";

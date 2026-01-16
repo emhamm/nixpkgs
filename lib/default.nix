@@ -119,7 +119,7 @@ let
         const
         pipe
         concat
-        or
+        "or"
         and
         xor
         bitAnd
@@ -303,6 +303,7 @@ let
         elem
         elemAt
         isList
+        concatAttrValues
         ;
       inherit (self.strings)
         concatStrings

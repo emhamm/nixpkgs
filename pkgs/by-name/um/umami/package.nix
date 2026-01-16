@@ -6,7 +6,9 @@
   makeWrapper,
   nixosTests,
   nodejs,
-  pnpm_10,
+  fetchPnpmDeps,
+  pnpmConfigHook,
+  pnpm,
   prisma,
   prisma-engines,
   openssl,
@@ -18,7 +20,6 @@
 }:
 let
   sources = lib.importJSON ./sources.json;
-  pnpm = pnpm_10;
 
   geocities = stdenvNoCC.mkDerivation {
     pname = "umami-geocities";
@@ -72,33 +73,30 @@ let
 in
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "umami";
-  version = "3.0.2";
+  version = "3.0.3";
 
   nativeBuildInputs = [
     makeWrapper
     nodejs
-    pnpm.configHook
+    pnpmConfigHook
+    pnpm
   ];
 
   src = fetchFromGitHub {
     owner = "umami-software";
     repo = "umami";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-6ega3ShfZlEnoFuFSh420hB8sp2qoJuAYnzeoOdpODs=";
+    hash = "sha256-rkOD52suE6bihJqKvMdIvqHRIcWhSxXzUkCfmdNbC40=";
   };
 
-  # install dev dependencies as well, for rollup
-  pnpmInstallFlags = [ "--prod=false" ];
-
-  pnpmDeps = pnpm.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs)
       pname
-      pnpmInstallFlags
       version
       src
       ;
-    fetcherVersion = 2;
-    hash = "sha256-zHpIqhxfvJ/so7bKvrGMqVGGnquJNnSI/0q3PE+VQ1Y=";
+    fetcherVersion = 3;
+    hash = "sha256-GFN94oySPCZA5K13XR8f/tByuHS571ohlYTFqaVw/Ns=";
   };
 
   env.CYPRESS_INSTALL_BINARY = "0";

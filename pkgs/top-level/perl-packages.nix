@@ -14233,10 +14233,10 @@ with self;
 
   FinanceQuote = buildPerlPackage rec {
     pname = "Finance-Quote";
-    version = "1.67";
+    version = "1.68";
     src = fetchurl {
       url = "mirror://cpan/authors/id/B/BP/BPSCHUCK/Finance-Quote-${version}.tar.gz";
-      hash = "sha256-uqip/AS5o4+nh77gAWvNTMMwHMmi8KbDeBGaNdre6zA=";
+      hash = "sha256-MuyDh8qZZr/iTob1TiR/mgt9d5mrwADM+k8oI6+iREE=";
     };
     buildInputs = [
       DateManip
@@ -39188,10 +39188,10 @@ with self;
 
   YAMLSyck = buildPerlPackage {
     pname = "YAML-Syck";
-    version = "1.34";
+    version = "1.36";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/T/TO/TODDR/YAML-Syck-1.34.tar.gz";
-      hash = "sha256-zJFWzK69p5jr/i8xthnoBld/hg7RcEJi8X/608bjQVk=";
+      url = "mirror://cpan/authors/id/T/TO/TODDR/YAML-Syck-1.36.tar.gz";
+      hash = "sha256-Tc2dmzsM48ZaL/K5tMb/+LZJ/fJDv9fhiJVDvs25GlI=";
     };
     meta = {
       description = "Fast, lightweight YAML loader and dumper";
