@@ -19,19 +19,19 @@ let
   ];
 in
 buildDotnetModule rec {
-  pname = "ArchiSteamFarm";
+  pname = "archisteamfarm";
   # nixpkgs-update: no auto update
-  version = "6.2.2.3";
+  version = "6.3.1.6";
 
   src = fetchFromGitHub {
     owner = "JustArchiNET";
     repo = "ArchiSteamFarm";
     rev = version;
-    hash = "sha256-FV9dYp3E8MHra5pyrh8dqZ/85TDwNbdiLV/XdAWiJsg=";
+    hash = "sha256-WbzPlngp+Vjwc14qgQE5i2WVRCGvcs9N8lVv2SpfqdQ=";
   };
 
-  dotnet-runtime = dotnetCorePackages.aspnetcore_9_0;
-  dotnet-sdk = dotnetCorePackages.sdk_9_0;
+  dotnet-runtime = dotnetCorePackages.aspnetcore_10_0;
+  dotnet-sdk = dotnetCorePackages.sdk_10_0;
 
   nugetDeps = ./deps.json;
 
@@ -42,6 +42,7 @@ buildDotnetModule rec {
   testProjectFile = "ArchiSteamFarm.Tests";
 
   executable = "ArchiSteamFarm";
+  installPath = "${placeholder "out"}/lib/ArchiSteamFarm";
 
   enableParallelBuilding = false;
 
@@ -52,7 +53,7 @@ buildDotnetModule rec {
     "-p:RuntimeIdentifiers="
   ];
   dotnetBuildFlags = [
-    "--framework=net9.0"
+    "--framework=net10.0"
   ];
   dotnetInstallFlags = dotnetBuildFlags;
 
@@ -95,7 +96,7 @@ buildDotnetModule rec {
   '';
 
   passthru = {
-    # nix-shell maintainers/scripts/update.nix --argstr package ArchiSteamFarm
+    # nix-shell maintainers/scripts/update.nix --argstr package archisteamfarm
     updateScript = ./update.sh;
     ui = callPackage ./web-ui { };
   };

@@ -74,8 +74,6 @@ in
   glib,
   gnum4,
   gtk3,
-  icu77, # if you fiddle with the icu parameters, please check Thunderbird's overrides
-  icu78,
   libGL,
   libGLU,
   libevent,
@@ -329,7 +327,16 @@ buildStdenv.mkDerivation {
       # https://hg-edge.mozilla.org/mozilla-central/rev/aa8a29bd1fb9
       ./139-wayland-drag-animation.patch
     ]
-    # Revert apple sdk bump to 26.1
+    # Revert apple sdk bump to 26.1 and 26.2
+    ++
+      lib.optionals (lib.versionAtLeast version "148" && lib.versionOlder apple-sdk_26.version "26.2")
+        [
+          (fetchpatch {
+            url = "https://github.com/mozilla-firefox/firefox/commit/73cbb9ff0fdbf8b13f38d078ce01ef6ec0794f9c.patch";
+            hash = "sha256-ghdddJxsaxXzLZpOOfwss+2S/UUcbLqKGzWWqKy9h/k=";
+            revert = true;
+          })
+        ]
     ++
       lib.optionals (lib.versionAtLeast version "146" && lib.versionOlder apple-sdk_26.version "26.1")
         [
@@ -344,10 +351,6 @@ buildStdenv.mkDerivation {
   postPatch = ''
     rm -rf obj-x86_64-pc-linux-gnu
     patchShebangs mach build
-  ''
-  # https://bugzilla.mozilla.org/show_bug.cgi?id=1927380
-  + lib.optionalString (lib.versionAtLeast version "134") ''
-    sed -i "s/icu-i18n/icu-uc &/" js/moz.configure
   ''
   + extraPostPatch;
 
@@ -506,7 +509,8 @@ buildStdenv.mkDerivation {
     # MacOS builds use bundled versions of libraries: https://bugzilla.mozilla.org/show_bug.cgi?id=1776255
     "--enable-system-pixman"
     "--with-system-ffi"
-    "--with-system-icu"
+    # Mozilla vendors 10+ patches and ICU upstream is very slow to adopt them
+    # "--with-system-icu"
     "--with-system-jpeg"
     "--with-system-libevent"
     "--with-system-libvpx"
@@ -609,7 +613,6 @@ buildStdenv.mkDerivation {
       libdrm
     ]
   ))
-  ++ [ (if (lib.versionAtLeast version "147") then icu78 else icu77) ]
   ++ lib.optional gssSupport libkrb5
   ++ lib.optional jemallocSupport jemalloc
   ++ extraBuildInputs;
