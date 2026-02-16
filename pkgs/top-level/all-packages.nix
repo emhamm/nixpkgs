@@ -4018,7 +4018,13 @@ with pkgs;
 
   trackma-qt = trackma.override { withQT = true; };
 
-  trezorctl = with python3Packages; toPythonApplication trezor;
+  trezorctl =
+    with python3Packages;
+    toPythonApplication (
+      trezor.overridePythonAttrs (oldAttrs: {
+        dependencies = oldAttrs.dependencies ++ oldAttrs.optional-dependencies.full;
+      })
+    );
 
   trezor-agent = with python3Packages; toPythonApplication trezor-agent;
 
@@ -8850,6 +8856,11 @@ with pkgs;
     go = buildPackages.go_1_25;
   };
 
+  go_1_26 = callPackage ../development/compilers/go/1.26.nix { };
+  buildGo126Module = callPackage ../build-support/go/module.nix {
+    go = buildPackages.go_1_26;
+  };
+
   ### DEVELOPMENT / HARE
 
   hareHook = callPackage ../by-name/ha/hare/hook.nix { };
@@ -11438,8 +11449,6 @@ with pkgs;
   };
 
   jackmix_jack1 = jackmix.override { jack = jack1; };
-
-  js8call = qt5.callPackage ../applications/radio/js8call { };
 
   jwm = callPackage ../applications/window-managers/jwm { };
 
