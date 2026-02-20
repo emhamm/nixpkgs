@@ -556,7 +556,7 @@ in
               '';
             };
             outputLimit = mkOption {
-              type = types.int;
+              type = types.nullOr types.int;
               default = null;
               description = ''
                 Maximum build log size in kilobytes. Default is 4096 (4 MB).
