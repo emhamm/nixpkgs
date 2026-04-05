@@ -622,6 +622,12 @@
     githubId = 49227;
     name = "Nick Bathum";
   };
+  adeci = {
+    email = "alex.decious@gmail.com";
+    github = "adeci";
+    githubId = 80290157;
+    name = "Alex Decious";
+  };
   adelbertc = {
     email = "adelbertc@gmail.com";
     github = "adelbertc";
@@ -2745,6 +2751,12 @@
     name = "Volodymyr Antonov";
     github = "azazak123";
     githubId = 50211158;
+  };
+  azban = {
+    name = "azban";
+    matrix = "@azban:matrix.org";
+    github = "azban";
+    githubId = 714931;
   };
   azd325 = {
     email = "tim.kleinschmidt@gmail.com";
@@ -21294,6 +21306,12 @@
     name = "Philipp Schmitt";
     matrix = "@pschmitt:one.ems.host";
     keys = [ { fingerprint = "9FBF 2ABF FB37 F7F3 F502  44E5 DC43 9C47 EACB 17F9"; } ];
+  };
+  pseudocc = {
+    email = "pseudoc@163.com";
+    github = "pseudocc";
+    githubId = 85104110;
+    name = "Atlas Yu";
   };
   pshirshov = {
     email = "pshirshov@eml.cc";
