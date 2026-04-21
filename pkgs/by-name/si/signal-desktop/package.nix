@@ -23,9 +23,6 @@
 
   withAppleEmojis ? false,
 }:
-assert lib.warnIf (commandLineArgs != "")
-  "`commandLineArgs` has been deprecated and will be removed in the future. Consider creating a wrapper script or a desktop entry with your desired flags."
-  true;
 let
   nodejs = nodejs_24;
   pnpm = pnpm_10;
@@ -58,13 +55,13 @@ let
     '';
   });
 
-  version = "8.6.0";
+  version = "8.6.1";
 
   src = fetchFromGitHub {
     owner = "signalapp";
     repo = "Signal-Desktop";
     tag = "v${version}";
-    hash = "sha256-K6mufC7LFGWeCkIkrsYPO2n/0L1b6yBqiLcv7w7e57g=";
+    hash = "sha256-UeCjj3txcBQxfvEJOuCKka3VVfd4OY/4wXoQ4lq4NiE=";
   };
 
   sticker-creator = stdenv.mkDerivation (finalAttrs: {
@@ -185,7 +182,7 @@ stdenv.mkDerivation (finalAttrs: {
   env = {
     ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
     SIGNAL_ENV = "production";
-    SOURCE_DATE_EPOCH = 1775687068;
+    SOURCE_DATE_EPOCH = 1776101010;
   }
   // lib.optionalAttrs stdenv.hostPlatform.isDarwin {
     # Disable code signing during local macOS builds.
